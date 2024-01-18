@@ -3,8 +3,7 @@ import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
-import DNAIcon from "./DNAIcon";
-import { Grid, styled } from "@mui/material";
+import { Grid, Menu, MenuItem, styled } from "@mui/material";
 import AddCircle from "@mui/icons-material/AddCircle";
 import Delete from "@mui/icons-material/Delete";
 import { useRef, useState } from "react";
@@ -59,12 +58,38 @@ export default function AddSequenceCard({
 }: AddSequenceCardProps) {
   const [rawSequenceContent, setRawSequenceContent] = useState<string>("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [loadSampleMenuEl, setLoadSampleMenuEl] = useState<null | HTMLElement>(
+    null
+  );
+  const loadSampleMenuOpen = Boolean(loadSampleMenuEl);
+
+  const loadSample = async (sample: string) => {
+    let rawSequenceContent = await (
+      await fetch(
+        `${window.location.pathname}/assets/dna/examples/${sample}`
+      )
+    ).text();
+
+    const isError = rawSequenceContent.startsWith("<!DOCTYPE html>");
+    isError &&
+      (rawSequenceContent = await (
+        await fetch(
+          `${window.location.pathname}/public/assets/dna/examples/${sample}`
+        )
+      ).text());
+
+    parseSequence(rawSequenceContent, sample, (parsedSequence) => {
+      parsedSequence.sequence = parsedSequence.sequence.trim();
+
+      onAddSequence?.(parsedSequence);
+    });
+  };
 
   return (
     <Card>
       <CardContent>
         <Grid container direction="row">
-          <Grid item sx={{p: 0.5}}>
+          <Grid item sx={{ p: 0.5 }}>
             <Science />
           </Grid>
           <Grid item>
@@ -92,6 +117,63 @@ export default function AddSequenceCard({
         />
       </CardContent>
       <CardActions sx={{ justifyContent: "flex-end" }}>
+        <Button
+          id="load-sample-button"
+          aria-controls={loadSampleMenuOpen ? "load-sample-menu" : undefined}
+          aria-haspopup="true"
+          aria-expanded={loadSampleMenuOpen ? "true" : undefined}
+          onClick={(e) => setLoadSampleMenuEl(e?.currentTarget)}
+          sx={{ justifySelf: "flex-start" }}
+        >
+          Load Sample
+        </Button>
+        <Menu
+          id="load-sample-menu"
+          anchorEl={loadSampleMenuEl}
+          open={loadSampleMenuOpen}
+          onClose={() => setLoadSampleMenuEl(null)}
+          MenuListProps={{
+            "aria-labelledby": "load-sample-button",
+          }}
+        >
+          {[
+            "fasta/1_4500010bp_random_seq.fasta",
+            "fasta/10_4500000_random_seqs.fasta",
+            "fasta/100_12000bp_random_seqs.fasta",
+            "fasta/banth1.heg.fasta",
+            "fasta/BoNT.fasta",
+            "fasta/bsub.fasta",
+            "fasta/ecol.heg.fasta",
+            "fasta/GCA_000293765.1_ASM29376v1_genomic.fna",
+            "fasta/gfp.fasta",
+            "fasta/hbb.fasta",
+            "fasta/human_HBB.fasta",
+            "fasta/insulin.fasta",
+            "fasta/luciferase.fasta",
+            "fasta/multiple_bad_seqs.fasta",
+            "fasta/mysteryGenome_1.fasta",
+            "fasta/mysteryGenome_2.fasta",
+            "fasta/ngon.heg.fasta",
+            "fasta/norway_rat_HBB.fasta",
+            "fasta/oxytocin.fasta",
+            "fasta/paer.heg.fasta",
+            "fasta/rhesus_HBB.fasta",
+            "fasta/sars-cov-2.fasta",
+            "fasta/test.fasta",
+            "fasta/titin.fasta",
+          ]
+            .sort()
+            .map((sample) => (
+              <MenuItem
+                onClick={() => {
+                  loadSample(sample);
+                  setLoadSampleMenuEl(null);
+                }}
+              >
+                {sample}
+              </MenuItem>
+            ))}
+        </Menu>
         <Button
           size="small"
           variant="outlined"

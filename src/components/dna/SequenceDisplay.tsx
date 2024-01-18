@@ -105,7 +105,6 @@ export default function SequenceDisplay({
     startingBP + visibleRows * basePairsPerRow,
     maxBasePair || 1
   );
-  debugger;
 
   return (
     <Box>

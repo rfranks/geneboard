@@ -19,16 +19,16 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Link from "@mui/material/Link";
+import Slider from "@mui/material/Slider";
+import Tooltip from "@mui/material/Tooltip";
+
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 
 import SequenceTallies from "./SequenceTallies";
 import SequencesTable from "./SequencesTable";
 import AddSequenceCard from "./AddSequenceCard";
 import { ChartMethod, GeneBoardState, Sequence } from "./types";
-import Slider from "@mui/material/Slider";
-import Tooltip from "@mui/material/Tooltip";
 import {
   BarChart,
   Brush,
@@ -278,7 +278,6 @@ export default function Dashboard() {
                     display: playInterval ? "none" : undefined,
                   }}
                   onClick={() => {
-                    debugger;
                     if (
                       maxBasePair === activeSequence.sequence.length &&
                       playInterval
@@ -301,7 +300,6 @@ export default function Dashboard() {
 
                       setPlayInterval(
                         setInterval(() => {
-                          debugger;
                           playRef?.current?.click();
                         }, 0)
                       );

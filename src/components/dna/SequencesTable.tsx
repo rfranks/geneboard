@@ -11,8 +11,12 @@ import { Clear, Error, Search, TableRows } from "@mui/icons-material";
 import { Sequence } from "./types";
 import Title from "./Title";
 import Typography from "@mui/material/Typography";
-import { Grid, IconButton, InputAdornment, TextField } from "@mui/material";
+
 import { blue } from "./colors";
+import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
 
 export type SequencesTableProps = {
   activeSequence?: Sequence | null;
@@ -30,10 +34,7 @@ export default function SequencesTable({
     Object.values(sequences)
   );
 
-  const [bpRange, setBpRange] = useState<number[] | null>(null);
-
   useEffect(() => {
-    debugger;
     setFilteredSequences(Object.values(sequences));
   }, [sequences]);
 
