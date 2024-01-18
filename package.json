@@ -38,6 +38,7 @@
     "clean": "rm -rf dist & rm -rf node_modules & rm -rf build",
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "buildtodocs": "react-scripts build && rm -rf docs && mv build docs",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "storybook": "storybook dev -p 6006",
