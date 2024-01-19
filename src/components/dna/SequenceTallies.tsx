@@ -3,7 +3,6 @@ import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
 import Title from "./Title";
 import { Sequence } from "./types";
-import { BasepairHistogram } from "./charts";
 
 export type SequenceTalliesProps = {
   activeSequence?: Sequence | null;
@@ -16,15 +15,17 @@ export type SequenceTalliesProps = {
 export default function SequenceTallies({
   activeSequence,
   sequences = {},
-  minBasePair,
-  maxBasePair,
   onViewSequenceClick,
 }: SequenceTalliesProps) {
   let totalBPs = 0;
+  let sequencesInError = 0;
 
   for (const k of Object.keys(sequences)) {
     const seq = sequences[k];
     totalBPs += seq?.sequence?.length || 0;
+    if (seq.hasAmbiguous) {
+      sequencesInError += 1;
+    }
   }
 
   return (
@@ -36,7 +37,11 @@ export default function SequenceTallies({
       <Typography color="text.secondary" sx={{ flex: 1 }}>
         Total basepairs: {totalBPs}bps
       </Typography>
-
+      {sequencesInError > 0 && (
+        <Typography color="text.secondary" sx={{ flex: 1 }}>
+          Sequences in error: {sequencesInError}
+        </Typography>
+      )}
       {activeSequence && (
         <div>
           <Title>Active Sequence</Title>

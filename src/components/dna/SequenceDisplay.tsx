@@ -28,8 +28,15 @@ export default function SequenceDisplay({
 }: SequenceDisplayProps) {
   maxBasePair = maxBasePair || sequence?.sequence.length;
 
-  const basePairsPerRow = showBinary ? 56 : 112;
+  const ref = useRef<HTMLDivElement | null>(null);
+
   const basePairHeight = 35;
+  const basePairWidth = showBinary ? 19.953 : 9.977;
+  const basePairsPerRow = ref?.current?.offsetWidth
+    ? Math.floor(ref?.current?.offsetWidth / basePairWidth)
+    : showBinary
+    ? 56
+    : 112;
   const totalBPs = (maxBasePair || 1) - minBasePair + 1;
   const totalRows = Math.floor(totalBPs / (1.0 * basePairsPerRow)) + 1;
   const totalRowHeight = totalRows * basePairHeight;
@@ -37,8 +44,6 @@ export default function SequenceDisplay({
 
   const [scrollTop, setScrollTop] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
-
-  const ref = useRef<HTMLDivElement | null>(null);
 
   // const handleScroll = (e: any) => setScrollTop(e?.target?.scrollTop || 0);
 
@@ -98,13 +103,15 @@ export default function SequenceDisplay({
   // const paddingTop = invisibleRowsBefore * basePairHeight;
 
   const startingBP = Math.max(
-    (page - 1) * visibleRows * basePairsPerRow + 1,
-    minBasePair
+    (page - 1) * visibleRows * basePairsPerRow,
+    minBasePair - 1
   );
   const endingBP = Math.min(
     startingBP + visibleRows * basePairsPerRow,
     maxBasePair || 1
   );
+
+  debugger;
 
   return (
     <Box>
@@ -135,7 +142,7 @@ export default function SequenceDisplay({
               showTooltip
                 ? wrapWithTooltip(
                     renderBase(base, index),
-                    `bp # ${startingBP + index} / ${
+                    `bp # ${startingBP + index + 1} / ${
                       sequence?.sequence.length
                     } => ${base} ${
                       showBinary ? "(" + baseTo2bit(base) + ")" : ""

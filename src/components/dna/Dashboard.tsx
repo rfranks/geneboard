@@ -463,6 +463,53 @@ export default function Dashboard() {
                         setChartMethod("sequence");
                       }}
                     />
+                    <Grid container flexDirection="column">
+                      <Grid item>
+                        <Link
+                          color="primary"
+                          href="#"
+                          onClick={() => {
+                            setState({
+                              ...state,
+                              sequences: {},
+                            });
+
+                            setActiveSequence(null);
+                          }}
+                          sx={{ mt: 3 }}
+                        >
+                          Remove all
+                        </Link>
+                      </Grid>
+                      <Grid item>
+                        <Link
+                          color="primary"
+                          href="#"
+                          onClick={() => {
+                            Object.keys(state?.sequences).forEach((key) => {
+                              if (
+                                state?.sequences[key] &&
+                                state?.sequences[key].hasAmbiguous
+                              ) {
+                                delete state?.sequences[key];
+                              }
+                            });
+
+                            setState({
+                              ...state,
+                              sequences: {
+                                ...state.sequences,
+                              },
+                            });
+
+                            setActiveSequence(null);
+                          }}
+                          sx={{ mt: 3 }}
+                        >
+                          Clear errors
+                        </Link>
+                      </Grid>
+                    </Grid>
                   </Paper>
                 </ListItem>
               </>
@@ -513,53 +560,6 @@ export default function Dashboard() {
                         );
                       }}
                     />
-                    <Grid container>
-                      <Grid item flexGrow={1} sx={{ textAlign: "right" }}>
-                        <Link
-                          color="primary"
-                          href="#"
-                          onClick={() => {
-                            setState({
-                              ...state,
-                              sequences: {},
-                            });
-
-                            setActiveSequence(null);
-                          }}
-                          sx={{ mt: 3 }}
-                        >
-                          Remove all
-                        </Link>
-                      </Grid>
-                      <Grid item>
-                        <Link
-                          color="primary"
-                          href="#"
-                          onClick={() => {
-                            Object.keys(state?.sequences).forEach((key) => {
-                              if (
-                                state?.sequences[key] &&
-                                state?.sequences[key].hasAmbiguous
-                              ) {
-                                delete state?.sequences[key];
-                              }
-                            });
-
-                            setState({
-                              ...state,
-                              sequences: {
-                                ...state.sequences,
-                              },
-                            });
-
-                            setActiveSequence(null);
-                          }}
-                          sx={{ ml: 3, mt: 3 }}
-                        >
-                          Clear errors
-                        </Link>
-                      </Grid>
-                    </Grid>
                   </Paper>
                 </Grid>
               )}
