@@ -37,12 +37,12 @@ export default function SequenceDisplay({
     : showBinary
     ? 56
     : 112;
-  const totalBPs = (maxBasePair || 1) - minBasePair + 1;
-  const totalRows = Math.floor(totalBPs / (1.0 * basePairsPerRow)) + 1;
-  const totalRowHeight = totalRows * basePairHeight;
+  // const totalBPs = (maxBasePair || 1) - minBasePair + 1;
+  // const totalRows = Math.floor(totalBPs / (1.0 * basePairsPerRow)) + 1;
+  // const totalRowHeight = totalRows * basePairHeight;
   const maxHeight = 350;
 
-  const [scrollTop, setScrollTop] = useState<number>(0);
+  // const [scrollTop, setScrollTop] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
 
   // const handleScroll = (e: any) => setScrollTop(e?.target?.scrollTop || 0);

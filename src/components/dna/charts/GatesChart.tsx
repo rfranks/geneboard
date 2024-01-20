@@ -1,4 +1,3 @@
-import * as React from "react";
 import { useTheme } from "@mui/material/styles";
 import {
   LineChart,
@@ -11,7 +10,6 @@ import {
 import { gates } from "dnaviz";
 
 import { Sequence } from "../types";
-import Title from "../Title";
 
 export type GatesChartProps = {
   activeSequence?: Sequence | null;

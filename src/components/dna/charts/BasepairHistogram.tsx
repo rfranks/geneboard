@@ -14,7 +14,6 @@ import {
 } from "recharts";
 
 import Grid from "@mui/material/Grid";
-import { useTheme } from "@mui/material";
 
 import { Sequence } from "../types";
 import { baseToColor, getBasepairCounts } from "../../../utils/sequenceUtils";
@@ -27,8 +26,6 @@ export type BasepairHistogramProps = {
 
 export function BasepairHistogram(props: BasepairHistogramProps) {
   const { sequence, minBasePair, maxBasePair } = props || {};
-
-  const theme = useTheme();
 
   if (!sequence) {
     return null;

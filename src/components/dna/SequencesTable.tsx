@@ -33,7 +33,7 @@ export default function SequencesTable({
   const [filteredSequences, setFilteredSequences] = useState<Sequence[]>(
     Object.values(sequences)
   );
-
+  
   useEffect(() => {
     setFilteredSequences(Object.values(sequences));
   }, [sequences]);
